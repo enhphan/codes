@@ -1,7 +1,7 @@
 program FreeEnergy
 implicit none
 integer::hit1(24,24),hit2(24,24),n,m,j
-real*8::hitnet(24,24),fe
+real*8::hitnet(24,24),fe,femat(24,24)
 real*8::temp,k=0.0019872 !temperature is in kelvin, k is the boltzmann constant in kcal/mol*K
 double precision::npdb
 !
@@ -43,9 +43,13 @@ do m=1,24
  do n=1,24
   if (hitnet(m,n)/=0) then
   fe=-log(hitnet(m,n)/npdb)*k*temp
-   write(12,101)m,n,fe
+  femat(m,n)=fe
+   write(13,101)m,n,fe
   endif
  end do
 end do
+102 format(24f8.3)
+open(unit=14,file="FEmat")
+write(14,102)femat
 stop
 end
