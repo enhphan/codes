@@ -4,22 +4,22 @@ integer::hit1(24,24),hit2(24,24),n,m,j
 real*8::hitnet(24,24),fe,err(24,24),errmag(24,24),root,erhi,erlo
 real*8::temp,k=0.0019872 !temperature is in kelvin, k is the boltzmann constant in kcal/mol*K
 double precision::npdbd
+!
+!remove this if only one hit matrix file exists; feed it in via i/o re-direct. See comments below block
 open(unit=10, file='/home/hephan/wca12rna_u24_umbloop4_v104_mc2/0000/hist')
 open(unit=11, file='/home/hephan/wca12rna_u24_umbloop4_v104_mc2/0001/hist')
 read(10,*)hit1
 read(11,*)hit2
+hitnet=real(hit1)+real(hit2)
+!
+!
+!100 format(24(i7))
+!read(*,100)hitnet
 !
 !will be used to test the read in/write out process of the pro!gram, can be ignored/commented out afterwards.
-open(unit=12, file='test')
-100 format(24(i7))
+!open(unit=12, file='test')
 !write(12,100)hit1
 !
-!the above open statements (unit 10 and 11) are really clunky and are specific to 
-!the case of what i've done to process the data. Ideally there should be a single 
-!hit matrix stored in the hist file for each collective set of simulations performed. 
-!In that case, just fee the hist file into the program via standard input
-!read(*,*) hitnet
-hitnet=real(hit1)+real(hit2)
 write(*,*) 'Enter desired temperature (in kelvin)'
 read(*,*) temp
 write(*,*) 'How many pdb files were analyzed in total for this hit matrix?'
@@ -39,10 +39,10 @@ do m=1,24
   errmag(m,n)=-log(root/npdb)*k*temp
   err(m,n)=-log(erhi/npdb)*k*temp
   err(n,m)=-log(erlo/npdb)*k*temp
-   write(13,102) err
-   write(13,102) errmag
   endif
  end do
 end do
+write(13,102) err
+write(14,102) errmag
 stop
 end
