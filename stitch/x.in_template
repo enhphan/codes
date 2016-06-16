@@ -1,0 +1,47 @@
+TEMP    310. 298.
+#DIELEC  2.4 2.7 3. 3.6 2. 3. 4. 1.
+DIELEC 0
+IDIELEC 0
+WCAMODE T
+PDBADDP T
+PDBENDS T
+SIDECHN T
+CHECKPT F T
+MCSTEPS 100000 10000 1000
+MCOUT   1
+RXPFILE x.rxp
+PDBFILE x.pdb
+OUTFILE x.out
+RXPFREQ 10
+PDBFREQ 1
+
+UMBB 10 2 15 2 8.5 9.5
+UMBA 10 1 10 2 15 2 1.835 2.531
+UMBA 10 2 15 2 15 1 1.835 2.531
+UMBT 10 1 10 2 15 2 15 1 -0.349 0.349
+UMBT 10 3 10 2 10 1 15 3 -0.349 0.349
+UMBT 10 3 15 1 15 2 15 3 -0.349 0.349
+UMBB xx 2 yy 2 8.5 9.5
+UMBA xx 1 xx 2 yy 2 1.835 2.531
+UMBA xx 2 yy 2 yy 1 1.835 2.531
+UMBT xx 1 xx 2 yy 2 yy 1 -0.349 0.349
+UMBT xx 3 xx 2 xx 1 yy 3 -0.349 0.349
+UMBT xx 3 yy 1 yy 2 yy 3 -0.349 0.349
+
+# Try these first...
+#
+#MC0  1.    1.5
+#MC1  1.    0.1, 0.1, 0.1
+#MC2  .01   0.5, 0.05
+#MC3  1.    0.5, 1.0
+#MC4  1.    1.0
+
+MC0  1.    1.5
+MC1  1.    0.1, 0.1, 0.1
+MC2  0.1   0.5, 0.05
+MC3  1.    0.5, 1.0
+MC4  1.    1.0
+#MCA  0.    6.0, 6.0
+#MCB  1.    0.1
+
+END
