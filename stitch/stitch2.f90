@@ -1,12 +1,16 @@
 program stitching
 !
-!
+!We'll be borrowing a lot of the modules used for the Nucleic program. To that
+!we will be piggy backing off of Chi's make file for the nucleic program so I 
+!wont have to map out all of the dependencies. The part we really care about is
+!the backbone entropy calculation and whether or not the backbone closes.
 !
 !DICTATE THE FRAGMENTS THAT YOU WANTED STITCHED TOGETHER USING THE ABSOLUTE PATH
 !OF THEIR RXP FILES. TO ALLOW AN ARBITRARY STRUCTURE TO BE STITCHED TOGETHER, 
 !WE'LL READ IN THE LIST OF THE FRAGMENTS' ABSOLUTE PATHS IN THE ORDER THAT THEY 
 !ARE TO BE STITCHED IN. THE PATHS SHOULD BE IN A FILE CALLED 'fragments.in'
-implicit none
+
+!implicit none
 character(len=180)::rxpline,fragpath,testline
 real*8::
 integer::io1,io2,io3
