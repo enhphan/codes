@@ -1,6 +1,10 @@
 program stitching
 !
 !
+!Note: we'll be borrowing an important component from Chi's Nucleic code, namely the backbone entropy calculation module.
+!as a result we'll be piggy backing off the existing make file for Nucleic for its list of dependencies and eas of compilation. 
+!The most current work version of stitch*.f90 will be kept in the v??? folder for the source code of nucleic and compiled there.
+!
 !
 !DICTATE THE FRAGMENTS THAT YOU WANTED STITCHED TOGETHER USING THE ABSOLUTE PATH
 !OF THEIR RXP FILES. TO ALLOW AN ARBITRARY STRUCTURE TO BE STITCHED TOGETHER, 
