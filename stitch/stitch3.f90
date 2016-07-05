@@ -79,7 +79,7 @@ program stitching
                 elseif(second=.true.) then
                   read(testline,101)r(5),eta(5),theta(5),omega(5),xi(5),phil(5),phir(5),resl(5),resr(5)
                   !
-                  !BLOCK USED TO GENERATE RETOXPlPr INFORMATION FOR THE JOINING LINE; 3rd elemtn of each array.
+       1001       !BLOCK USED TO GENERATE RETOXPlPr INFORMATION FOR THE JOINING LINE; 3rd elemtn of each array.
                   !ALSO FILLS IN A CHI VALUE FOR THE LAST RES OF LEADING FRAGMENT XI ANGLE (XI(2))
                   !
                   open(unit=13,file='working.rxp')!opens a working file into which we read the join
@@ -88,8 +88,60 @@ program stitching
                   enddo
                   call nucleicmod(-1) !initiate defaults for variables; 'call init'
                   call nucleicmod(-2) !definine name of rxp input file and pdb output file 
-                  !ASK CHI ABOUT HOW TO PROPERLY PASS THE desired name to this mod
-                                   
+!                  
+!ASK CHI ABOUT HOW TO PROPERLY PASS THE desired name to this mod
+!                 
+!call up the nucleic functionality to check backbone "closability"
+           ! read initial rxp file
+                  open (iorxp,file=rxpfile,status='old',err=298)
+                  call readrxp(iorxp)
+                  close(iorxp)
+
+           ! convert rxp into internal coordinates
+                  call rxpcnc
+
+           ! initialize energies and r9 coordinates
+                  call initsbb(ierr)
+                  call initerg
+                  if (ierr.gt.0) then
+                    write(*,*) '[nucleicmod] backbone break detected in initial rxp'
+                    goto 1001 !go back to the section that modify the join and alter values for the joinline and non-sense chi
+                  endif
+
+           ! write initial pdb file
+                  open (iopdb,file=pdbfile(1:len(trim(pdbfile)))//"_0")
+                  call writepdb(iopdb)
+                  close(iopdb)
+
+           ! seed ran2
+                  open (ioran,file=ranfile,status='old',err=297)
+                  read (ioran,*) irand
+                  if (irand.lt.0) then
+                    tmp=ran2(irand)
+                  else
+                    read (ioran,*) iv,iy,idum2
+                  endif
+                  close(ioran)
+
+
+                  goto 299
+
+           ! error handlers
+            297   continue
+                  write(*,*) '[nucleicmod] ran file cannot be located, ',
+                 &           'using default seed instead'
+                  irand=-1
+                  tmp=ran2(irand)
+                  goto 299
+
+            298   continue
+                  write(*.*) '[nucleicmod]error reading RXP file'
+                  stop
+            
+            299   continue
+                  write(*,"(' ',78('-'))")
+                  
+                  endif                              
                   second=.false.
                 else
                   if(third==.true.) then
@@ -107,3 +159,4 @@ program stitching
             enddo
 stop
 end
+

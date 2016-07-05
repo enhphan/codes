@@ -10,6 +10,9 @@ read(test(1),'(a10)')string
 write(*,*)string(4:6)
 write(*,*)string(5:7)
 write(*,*)string(6:8)
+open(unit=10,file=test(3))
+write(10,*)'abcdefghij'
+write(*,*)test(3)
 stop
 end
 
